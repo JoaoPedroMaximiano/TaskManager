@@ -52,10 +52,12 @@ class TarefaController extends Controller
         ]);
 
         $task = Tarefa::find($id);
-        $task->nome = $request->nome;
-        $task->status = $request->status;
-        $task->prazo = $request->prazo;
-        $task->save();
+        if ($task && $task->user_id === $request->user()->id) {
+            $task->nome = $request->nome;
+            $task->status = $request->status;
+            $task->prazo = $request->prazo;
+            $task->save();
+        }
 
         return redirect()->route('dashboard');
     }
