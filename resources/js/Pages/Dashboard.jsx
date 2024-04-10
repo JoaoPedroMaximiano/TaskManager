@@ -1,25 +1,36 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { PencilSimple, Trash } from '@phosphor-icons/react';
+import { Inertia } from '@inertiajs/inertia';
+
 
 export default function Dashboard(props) {
     let {tarefas} = props;
 
     let formatDate = (data) => {
         let hoje = new Date();
+        hoje.setHours(0, 0, 0, 0);
+
         let dataFormatada = new Date(data);
+        dataFormatada.setHours(0, 0, 0, 0);
+        dataFormatada.setDate(dataFormatada.getDate() + 1);
 
-        if (dataFormatada.toDateString() === hoje.toDateString()) return "Hoje";
+        let diff = Math.floor((dataFormatada - hoje) / (1000 * 60 * 60 * 24));
 
-        let amanha = new Date(hoje);
-        amanha.setDate(hoje.getDate() + 1);
-        if (dataFormatada.toDateString() === amanha.toDateString()) return "Amanhã";
+        if (diff === 0) return "Hoje";
+        else if (diff === 1) return "Amanhã";
+        else if (diff === -1) return "Ontem";
+        else return data.split("-").reverse().join("/");
+    };
 
-        let ontem = new Date(hoje);
-        ontem.setDate(hoje.getDate() - 1);
-        if (dataFormatada.toDateString() === ontem.toDateString()) return "Ontem";
-
-        return data.split("-").reverse().join("/");
+    let handleDelete = (id) => {
+        if (confirm('Tem certeza que deseja excluir esta tarefa?')) {
+            Inertia.delete(route('delete-task', { id }), {
+                onSuccess: () => {
+                    Inertia.reload();
+                },
+            });
+        }
     };
 
     return (
@@ -57,8 +68,20 @@ export default function Dashboard(props) {
                                             <td className="px-4 py-2">{formatStatus(tarefa.status)}</td>
                                             <td className="px-4 py-2">{formatDate(tarefa.prazo)}</td>
                                             <td className="px-4 py-2 flex gap-2 justify-end">
-                                                <PencilSimple size={32} weight="fill" />
-                                                <Trash size={32} weight="fill" />
+                                                <PencilSimple
+                                                    size={32}
+                                                    weight="fill"
+                                                    className="cursor-pointer"
+                                                    title="Editar"
+                                                    onClick={() => Inertia.get(route('edit-task', { id: tarefa.id }))}
+                                                />
+                                                <Trash
+                                                    size={32}
+                                                    weight="fill"
+                                                    className="cursor-pointer"
+                                                    title="Deletar"
+                                                    onClick={() => handleDelete(tarefa.id)}
+                                                />
                                             </td>
                                         </tr>;
                                     })}

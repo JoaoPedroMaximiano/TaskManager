@@ -4,27 +4,22 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, useForm } from '@inertiajs/react';
-import { useState } from 'react';
 
 export default function NewTask(props) {
-    const { data, setData, post, errors } = useForm({
-        email: '',
-        password: '',
-        remember: '',
+    const { data, setData, post, processing, errors } = useForm({
+        nome: '',
+        status: 'prioridade',
+        prazo: '',
     });
 
     const handleOnChange = (event) => {
-        setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
+        setData(event.target.name, event.target.value);
     };
 
     const submit = (e) => {
         e.preventDefault();
-
-        setIsBtnDisabled(true);
         post(route('store-task'));
     };
-
-    let [isBtnDisabled, setIsBtnDisabled] = useState(false);
 
     return (
         <AuthenticatedLayout
@@ -39,41 +34,60 @@ export default function NewTask(props) {
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                         <form onSubmit={submit}>
                             <div>
-                                <InputLabel htmlFor="email" value="E-mail" />
+                                <InputLabel htmlFor="nome" value="Nome" />
 
                                 <TextInput
-                                    id="email"
-                                    type="email"
-                                    name="email"
-                                    value={data.email}
+                                    id="nome"
+                                    type="text"
+                                    name="nome"
+                                    value={data.nome}
                                     className="mt-1 block w-full"
-                                    autoComplete="username"
+                                    autoComplete="off"
                                     isFocused={true}
                                     onChange={handleOnChange}
                                 />
 
-                                <InputError message={errors.email} className="mt-2" />
+                                <InputError message={errors.nome} className="mt-2" />
                             </div>
 
                             <div className="mt-4">
-                                <InputLabel htmlFor="password" value="Senha" />
+                                <InputLabel htmlFor="status" value="Status" />
+
+                                <select
+                                    id="status"
+                                    name="status"
+                                    value={data.status}
+                                    onChange={handleOnChange}
+                                    className="mt-1 block w-full"
+                                >
+                                    <option value="prioridade">Prioridade</option>
+                                    <option value="secundario">Secundário</option>
+                                    <option value="importante">Importante</option>
+                                    <option value="depois">Depois</option>
+                                </select>
+
+                                <InputError message={errors.status} className="mt-2" />
+                            </div>
+
+                            <div className="mt-4">
+                                <InputLabel htmlFor="prazo" value="Prazo" />
 
                                 <TextInput
-                                    id="password"
-                                    type="password"
-                                    name="password"
-                                    value={data.password}
+                                    id="prazo"
+                                    type="date"
+                                    name="prazo"
+                                    value={data.prazo}
                                     className="mt-1 block w-full"
-                                    autoComplete="current-password"
+                                    autoComplete="off"
                                     onChange={handleOnChange}
                                 />
 
-                                <InputError message={errors.password} className="mt-2" />
+                                <InputError message={errors.prazo} className="mt-2" />
                             </div>
 
                             <div className="flex items-center justify-end mt-4">
-                                <PrimaryButton className="ml-4" disabled={isBtnDisabled}>
-                                    Entrar
+                                <PrimaryButton className="ml-4" disabled={processing}>
+                                    Criar Tarefa
                                 </PrimaryButton>
                             </div>
                         </form>

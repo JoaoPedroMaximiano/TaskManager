@@ -9,6 +9,9 @@ class Tarefa extends Model
 {
     use HasFactory;
 
+    public $timestamps = true;
+
+    protected $primaryKey = "id";
     protected $table = "tarefas";
     protected $fillable = ["nome", "status", "prazo", "user_id"];
 

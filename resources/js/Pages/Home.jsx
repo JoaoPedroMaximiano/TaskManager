@@ -6,12 +6,18 @@ export default function Home(props) {
         <div className="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-gray-100">
             <div className="sm:fixed sm:top-0 sm:right-0 p-6 text-right">
                 {props.auth.user ? (
-                    <Link
-                        href={route('dashboard')}
-                        className="font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm"
-                    >
-                        Dashboard
-                    </Link>
+                    <div className="flex gap-5 items-center">
+                        <Link
+                            href={route('dashboard')}
+                            className="font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm"
+                        >
+                            Dashboard
+                        </Link>
+
+                        <Link href={route('logout')} as="button" method='post' className="font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm">
+                            Sair
+                        </Link>
+                    </div>
                 ) : (
                     <>
                         <Link

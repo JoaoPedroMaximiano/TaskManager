@@ -80,7 +80,7 @@ export default function Login({ status, canResetPassword }) {
                 <div className="flex items-center justify-end mt-4">
                     <Link
                         href={route('register')}
-                        className="ml-4 font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm"
+                        className="underline text-base text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
                         Não tem cadastro?
                     </Link>

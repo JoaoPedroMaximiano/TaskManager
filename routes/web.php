@@ -28,6 +28,9 @@ Route::get('/', function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/task', [TarefaController::class, 'create'])->middleware(['auth', 'verified'])->name('new-task');
 Route::post('/task', [TarefaController::class, 'store'])->middleware(['auth', 'verified'])->name('store-task');
+Route::get('/task/{id}', [TarefaController::class, 'edit'])->middleware(['auth', 'verified'])->name('edit-task');
+Route::put('/task/{id}', [TarefaController::class, 'update'])->middleware(['auth', 'verified'])->name('update-task');
+Route::delete('/task', [TarefaController::class, 'delete'])->middleware(['auth', 'verified'])->name('delete-task');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
