@@ -16,7 +16,7 @@ class TarefaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nome' => 'required|string',
+            'nome' => 'required|string|max:100',
             'status' => 'required|string|in:prioridade,secundario,importante,depois',
             'prazo' => 'required|string|date',
         ]);
@@ -46,7 +46,7 @@ class TarefaController extends Controller
 
     public function update(Request $request, $id) {
         $request->validate([
-            'nome' => 'required|string',
+            'nome' => 'required|string|max:100',
             'status' => 'required|string|in:prioridade,secundario,importante,depois',
             'prazo' => 'required|string|date',
         ]);

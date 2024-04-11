@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('tarefas', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
+            $table->string('nome', length: 100);
             $table->enum('status', ['prioridade', 'secundario', 'importante', 'depois']);
             $table->date('prazo');
             $table->integer('user_id')->unsigned();

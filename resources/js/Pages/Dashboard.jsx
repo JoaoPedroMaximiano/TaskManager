@@ -2,7 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { PencilSimple, Trash } from '@phosphor-icons/react';
 import { Inertia } from '@inertiajs/inertia';
-
+import Swal from 'sweetalert2';
 
 export default function Dashboard(props) {
     let {tarefas} = props;
@@ -24,13 +24,24 @@ export default function Dashboard(props) {
     };
 
     let handleDelete = (id) => {
-        if (confirm('Tem certeza que deseja excluir esta tarefa?')) {
-            Inertia.delete(route('delete-task', { id }), {
-                onSuccess: () => {
-                    Inertia.reload();
-                },
-            });
-        }
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: 'Você realmente deseja excluir esta tarefa?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Excluir',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Inertia.delete(route('delete-task', { id }), {
+                    onSuccess: () => {
+                        Inertia.reload();
+                    },
+                });
+            }
+        });
     };
 
     return (
