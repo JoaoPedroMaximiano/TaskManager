@@ -35,7 +35,7 @@ class TarefaController extends Controller
     {
         $task = Tarefa::where('id', $id)->first();
 
-        if ($task && $task->user_id === auth()->user()->id) {
+        if ($task && $task->user_id == auth()->user()->id) {
             return Inertia::render('Task/EditTask', [
                 'task' => $task
             ]);
@@ -52,7 +52,7 @@ class TarefaController extends Controller
         ]);
 
         $task = Tarefa::find($id);
-        if ($task && $task->user_id === $request->user()->id) {
+        if ($task && $task->user_id == $request->user()->id) {
             $task->nome = $request->nome;
             $task->status = $request->status;
             $task->prazo = $request->prazo;
@@ -70,7 +70,7 @@ class TarefaController extends Controller
 
         $task = Tarefa::find($request->id);
 
-        if ($task && $task->user_id === $request->user()->id) {
+        if ($task && $task->user_id == $request->user()->id) {
             $task->delete();
         }
 

@@ -2,7 +2,7 @@ import { Link, Head } from '@inertiajs/react';
 
 export default function Home(props) {
     return <>
-        <Head title="Welcome" />
+        <Head title="Bem-vindo" />
         <div className="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-gray-100">
             <div className="sm:fixed sm:top-0 sm:right-0 p-6 text-right">
                 {props.auth.user ? (
